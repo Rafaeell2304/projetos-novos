@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>Projeto Blog</title>
-<link>https://your-website-url.example.com/</link>
-<atom:link href="https://your-website-url.example.com/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://rafaeell2304.github.io/projetos-novos/</link>
+<atom:link href="https://rafaeell2304.github.io/projetos-novos/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog built with Quarto</description>
 <generator>quarto-1.8.25</generator>
 <lastBuildDate>Thu, 20 Nov 2025 03:00:00 GMT</lastBuildDate>
 <item>
   <title>Atividade 3: Regressão Linear</title>
   <dc:creator>Carlos Rafael</dc:creator>
-  <link>https://your-website-url.example.com/posts/Atividade3-Linear/</link>
+  <link>https://rafaeell2304.github.io/projetos-novos/posts/Atividade3-Linear/</link>
   <description><![CDATA[ 
 
 
@@ -23,7 +23,7 @@
 
 <section id="resultado-gráfico-da-regressão-linear" class="level3">
 <h3 class="anchored" data-anchor-id="resultado-gráfico-da-regressão-linear">Resultado: Gráfico da Regressão Linear</h3>
-<p><img src="https://your-website-url.example.com/posts/Atividade3-Linear/grafico_regressao.png" class="img-fluid"></p>
+<p><img src="https://rafaeell2304.github.io/projetos-novos/posts/Atividade3-Linear/grafico_regressao.png" class="img-fluid"></p>
 
 
 </section>
@@ -31,13 +31,13 @@
  ]]></description>
   <category>Python</category>
   <category>Numpy</category>
-  <guid>https://your-website-url.example.com/posts/Atividade3-Linear/</guid>
+  <guid>https://rafaeell2304.github.io/projetos-novos/posts/Atividade3-Linear/</guid>
   <pubDate>Thu, 20 Nov 2025 03:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Post With Code</title>
   <dc:creator>Harlow Malloc</dc:creator>
-  <link>https://your-website-url.example.com/posts/post-with-code/</link>
+  <link>https://rafaeell2304.github.io/projetos-novos/posts/post-with-code/</link>
   <description><![CDATA[ 
 
 
@@ -52,14 +52,14 @@
   <category>news</category>
   <category>code</category>
   <category>analysis</category>
-  <guid>https://your-website-url.example.com/posts/post-with-code/</guid>
+  <guid>https://rafaeell2304.github.io/projetos-novos/posts/post-with-code/</guid>
   <pubDate>Fri, 07 Nov 2025 03:00:00 GMT</pubDate>
-  <media:content url="https://your-website-url.example.com/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://rafaeell2304.github.io/projetos-novos/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Welcome To My Blog</title>
   <dc:creator>Tristan O&#39;Malley</dc:creator>
-  <link>https://your-website-url.example.com/posts/welcome/</link>
+  <link>https://rafaeell2304.github.io/projetos-novos/posts/welcome/</link>
   <description><![CDATA[ 
 
 
@@ -67,14 +67,14 @@
 
 
 <p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="https://your-website-url.example.com/posts/welcome/thumbnail.jpg" class="img-fluid"></p>
+<p><img src="https://rafaeell2304.github.io/projetos-novos/posts/welcome/thumbnail.jpg" class="img-fluid"></p>
 <p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
 
 
 
  ]]></description>
   <category>news</category>
-  <guid>https://your-website-url.example.com/posts/welcome/</guid>
+  <guid>https://rafaeell2304.github.io/projetos-novos/posts/welcome/</guid>
   <pubDate>Tue, 04 Nov 2025 03:00:00 GMT</pubDate>
 </item>
 </channel>
