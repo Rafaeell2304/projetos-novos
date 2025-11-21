@@ -1,0 +1,13 @@
+---
+title: "Atividade 3: Regressão Linear"
+author: "Carlos Rafael"
+date: "2025-11-20"
+categories: [Python, Numpy]
+format: html
+---
+
+
+### Resultado: Gráfico da Regressão Linear
+
+
+![](grafico_regressao.png)
