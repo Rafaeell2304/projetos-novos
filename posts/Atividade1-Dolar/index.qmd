@@ -1,0 +1,115 @@
+---
+title: "Cotação do Dólar com Python (PTAX)"
+author: "Carlos Rafael"
+date: "2025-11-23"
+categories: [python, API, finanças, cotação dolar]
+format: html
+---
+
+## Introdução
+Este projeto busca a cotação do dólar fornecida pelo Banco Central do Brasil para um mês específico.
+A ideia é consultar os valores de compra e venda, preencher automaticamente feriados e fins de semana
+com a última cotação disponível e gerar um gráfico interativo em HTML para ser usado no blog.
+
+## Funcionamento do código
+O código faz uma requisição à API do Banco Central usando a data no formato MMYYYY.
+Depois, organiza as cotações por data, trata dias sem cotação e monta uma tabela completa do mês.
+Por fim, gera um gráfico interativo com Plotly e salva o resultado em um arquivo HTML.
+
+## Código utilizado
+```python
+import calendar
+from datetime import datetime, timedelta
+import requests
+import plotly.graph_objects as go
+import plotly.express as px
+import pandas as pd
+
+def cotar(dataDolar):
+    """
+    Busca a cotação do dólar no Banco Central do Brasil para o mês/ano especificado,
+    trata os dias sem cotação e gera um gráfico interativo.
+    """
+    if len(dataDolar) != 6:
+        raise ValueError("A data deve estar no formato MMYYYY (ex: '102019')")
+
+    first_date = datetime.strptime(dataDolar, "%m%Y")
+    last_date = first_date.replace(day=calendar.monthrange(first_date.year, first_date.month)[1])
+
+    datainicio = first_date.strftime("%m-%d-%Y")
+    datafim = last_date.strftime("%m-%d-%Y")
+
+    url = (
+        f"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/"
+        f"CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?"
+        f"@dataInicial='{datainicio}'&@dataFinalCotacao='{datafim}'&$format=json"
+    )
+
+    res = requests.get(url).json()
+
+    if 'value' not in res or not res['value']:
+        print(f"Aviso: Nenhuma cotação encontrada para {dataDolar}.")
+        return None
+
+    result = {}
+    for item in res['value']:
+        data_completa = datetime.strptime(item["dataHoraCotacao"], "%Y-%m-%d %H:%M:%S.%f")
+        data = data_completa.date()
+        compra = item["cotacaoCompra"]
+        venda = item["cotacaoVenda"]
+        result[data] = (compra, venda)
+
+    def ultimo_dia_util(dia_atual):
+        dia_util = dia_atual - timedelta(days=1)
+        while dia_util >= first_date.date():
+            if dia_util in result:
+                return result[dia_util]
+            dia_util -= timedelta(days=1)
+        return (None, None)
+
+    dados_cotacao = []
+    data_cotacao = first_date.date()
+    while data_cotacao <= last_date.date():
+        if data_cotacao in result:
+            compra, venda = result[data_cotacao]
+        else:
+            compra, venda = ultimo_dia_util(data_cotacao)
+
+        dados_cotacao.append({
+            "Data": data_cotacao.strftime("%d/%m/%Y"),
+            "Compra": compra,
+            "Venda": venda,
+        })
+        data_cotacao += timedelta(days=1)
+
+    df = pd.DataFrame(dados_cotacao)
+
+    fig = px.line(
+        df,
+        x="Data",
+        y=["Compra", "Venda"],
+        title=f"Cotação do Dólar (PTAX) - {first_date.strftime('%B de %Y')}",
+        labels={"value": "Valor (R$)", "variable": "Tipo de Cotação"},
+        color_discrete_map={
+            "Compra": "green",
+            "Venda": "red"
+        }
+    )
+    fig.update_layout(template="plotly_white")
+
+    nome_arquivo_html = f"cotacao_dolar_{dataDolar}.html"
+    fig.write_html(nome_arquivo_html)
+
+    print(f"Gráfico salvo em: {nome_arquivo_html}")
+    return nome_arquivo_html
+
+cotar('102019')
+```
+
+## Gráfico gerado
+O arquivo HTML com o gráfico interativo é incorporado abaixo:
+
+```{=html}
+<iframe src="cotacao_dolar_102019.html" width="100%" height="500px"></iframe>
+
+
