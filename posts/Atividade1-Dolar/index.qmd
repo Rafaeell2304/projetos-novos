@@ -1,5 +1,5 @@
 ---
-title: "Cotação do Dólar com Python (PTAX)"
+title: "Atividade 1: Cotação do Dólar com Python (PTAX)"
 author: "Carlos Rafael"
 date: "2025-11-23"
 categories: [python, API, finanças, cotação dolar]
