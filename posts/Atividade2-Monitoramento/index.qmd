@@ -1,0 +1,88 @@
+---
+title: "Atividade 2: Monitoramento - Linha 695Y (Parelheiros)"
+author: "Carlos Rafael"
+date: "2025-11-22"
+categories: [Python, Folium, API, SPTrans, Geoprocessamento]
+format: html
+resources: 
+  - mapa_linha_695Y.html
+---
+
+## O Objetivo
+Nesta atividade, desenvolvemos uma rotina em **Python** para monitorar, em tempo real, a operação da linha **695Y-10 (Terminal Parelheiros / Metrô Vila Mariana)**.
+
+O objetivo é consumir dados públicos da SPTrans e transformar coordenadas numéricas em uma visualização geográfica intuitiva.
+
+## Entendendo a Lógica do Código
+O script foi estruturado em três etapas essenciais:
+
+1.  **Autenticação (Segurança):** O código se conecta à API *Olho Vivo* enviando um **Token de Acesso**. Utilizamos a biblioteca `python-dotenv` para ler esse token de um arquivo oculto, garantindo que a credencial não fique exposta no código fonte.
+
+2.  **Mineração de Dados (Request):** Uma vez autenticado, o script faz duas requisições simultâneas para a SPTrans:
+    * Busca a localização fixa de todas as **paradas** da linha.
+    * Busca a posição GPS dinâmica de todos os **ônibus** em circulação no momento.
+
+3.  **Visualização (Folium):** Utilizando a biblioteca `folium`, criamos um mapa interativo onde:
+    * **Ícones Azuis:** Representam os pontos de parada.
+    * **Ícones Vermelhos:** Representam a localização real dos veículos.
+
+## O Código Fonte
+Abaixo, a implementação completa da solução:
+
+```{python}
+#| eval: false
+#| code-fold: true
+#| code-summary: "Clique para ver o código Python completo"
+
+import requests
+import folium
+import os
+from dotenv import load_dotenv
+
+# --- Configuração ---
+load_dotenv()
+TOKEN = os.getenv('SPTRANS_TOKEN')
+CODIGO_LINHA = 1198  # Linha 695Y
+
+# 1. Autenticação
+s = requests.Session()
+auth = s.post(f"[http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=](http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=){TOKEN}")
+
+if auth.text != "true":
+    print("Erro de Autenticação")
+    exit()
+
+# 2. Coleta de Dados
+url_paradas = f"[http://api.olhovivo.sptrans.com.br/v2.1/Parada/BuscarParadasPorLinha?codigoLinha=](http://api.olhovivo.sptrans.com.br/v2.1/Parada/BuscarParadasPorLinha?codigoLinha=){CODIGO_LINHA}"
+url_onibus = f"[http://api.olhovivo.sptrans.com.br/v2.1/Posicao/Linha?codigoLinha=](http://api.olhovivo.sptrans.com.br/v2.1/Posicao/Linha?codigoLinha=){CODIGO_LINHA}"
+
+paradas = s.get(url_paradas).json()
+posicoes = s.get(url_onibus).json()
+lista_onibus = posicoes.get('vs', [])
+
+# 3. Geração do Mapa
+if paradas:
+    m = folium.Map(location=[paradas[0]['py'], paradas[0]['px']], zoom_start=13)
+
+    # Paradas (Azul)
+    for p in paradas:
+        folium.Marker(
+            [p['py'], p['px']], popup=f"Parada: {p['np']}", 
+            icon=folium.Icon(color='blue', icon='info-sign')
+        ).add_to(m)
+
+    # Ônibus (Vermelho)
+    if lista_onibus:
+        for o in lista_onibus:
+            folium.Marker(
+                [o['py'], o['px']], popup=f"Bus: {o['p']}", 
+                icon=folium.Icon(color='red', icon='bus', prefix='fa')
+            ).add_to(m)
+
+    m.save("mapa_linha_695Y.html")
+    print("Mapa gerado com sucesso!")
+
+    Resultado: Mapa Interativo
+Abaixo, o resultado final do processamento. Você pode interagir com o mapa (zoom e clique nos marcadores).
+
+<iframe src="mapa_linha_695Y.html" width="100%" height="600px" style="border:none;"></iframe>

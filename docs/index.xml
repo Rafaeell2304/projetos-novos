@@ -10,7 +10,7 @@
 <atom:link href="https://rafaeell2304.github.io/projetos-novos/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog built with Quarto</description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Thu, 20 Nov 2025 03:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 23 Nov 2025 03:00:00 GMT</lastBuildDate>
 <item>
   <title>Atividade 3: Regressão Linear</title>
   <dc:creator>Carlos Rafael</dc:creator>
@@ -32,7 +32,97 @@
   <category>Python</category>
   <category>Numpy</category>
   <guid>https://rafaeell2304.github.io/projetos-novos/posts/Atividade3-Linear/</guid>
-  <pubDate>Thu, 20 Nov 2025 03:00:00 GMT</pubDate>
+  <pubDate>Sun, 23 Nov 2025 03:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Atividade 2: Monitoramento - Linha 695Y (Parelheiros)</title>
+  <dc:creator>Carlos Rafael</dc:creator>
+  <link>https://rafaeell2304.github.io/projetos-novos/posts/Atividade2-Monitoramento/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="o-objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="o-objetivo">O Objetivo</h2>
+<p>Nesta atividade, desenvolvemos uma rotina em <strong>Python</strong> para monitorar, em tempo real, a operação da linha <strong>695Y-10 (Terminal Parelheiros / Metrô Vila Mariana)</strong>.</p>
+<p>O objetivo é consumir dados públicos da SPTrans e transformar coordenadas numéricas em uma visualização geográfica intuitiva.</p>
+</section>
+<section id="entendendo-a-lógica-do-código" class="level2">
+<h2 class="anchored" data-anchor-id="entendendo-a-lógica-do-código">Entendendo a Lógica do Código</h2>
+<p>O script foi estruturado em três etapas essenciais:</p>
+<ol type="1">
+<li><p><strong>Autenticação (Segurança):</strong> O código se conecta à API <em>Olho Vivo</em> enviando um <strong>Token de Acesso</strong>. Utilizamos a biblioteca <code>python-dotenv</code> para ler esse token de um arquivo oculto, garantindo que a credencial não fique exposta no código fonte.</p></li>
+<li><p><strong>Mineração de Dados (Request):</strong> Uma vez autenticado, o script faz duas requisições simultâneas para a SPTrans:</p>
+<ul>
+<li>Busca a localização fixa de todas as <strong>paradas</strong> da linha.</li>
+<li>Busca a posição GPS dinâmica de todos os <strong>ônibus</strong> em circulação no momento.</li>
+</ul></li>
+<li><p><strong>Visualização (Folium):</strong> Utilizando a biblioteca <code>folium</code>, criamos um mapa interativo onde:</p>
+<ul>
+<li><strong>Ícones Azuis:</strong> Representam os pontos de parada.</li>
+<li><strong>Ícones Vermelhos:</strong> Representam a localização real dos veículos.</li>
+</ul></li>
+</ol>
+</section>
+<section id="o-código-fonte" class="level2">
+<h2 class="anchored" data-anchor-id="o-código-fonte">O Código Fonte</h2>
+<p>Abaixo, a implementação completa da solução:</p>
+<p>#| eval: false #| code-fold: true #| code-summary: “Clique para ver o código Python completo”</p>
+<p>import requests import folium import os from dotenv import load_dotenv</p>
+</section>
+<section id="configuração" class="level1">
+<h1>— Configuração —</h1>
+<p>load_dotenv() TOKEN = os.getenv(‘SPTRANS_TOKEN’) CODIGO_LINHA = 1198 # Linha 695Y</p>
+</section>
+<section id="autenticação" class="level1">
+<h1>1. Autenticação</h1>
+<p>s = requests.Session() auth = s.post(f”<a href="http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=">http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=</a>{TOKEN}“)</p>
+<p>if auth.text != “true”: print(“Erro de Autenticação”) exit()</p>
+</section>
+<section id="coleta-de-dados" class="level1">
+<h1>2. Coleta de Dados</h1>
+<p>url_paradas = f”<a href="http://api.olhovivo.sptrans.com.br/v2.1/Parada/BuscarParadasPorLinha?codigoLinha=">http://api.olhovivo.sptrans.com.br/v2.1/Parada/BuscarParadasPorLinha?codigoLinha=</a>{CODIGO_LINHA}” url_onibus = f”<a href="http://api.olhovivo.sptrans.com.br/v2.1/Posicao/Linha?codigoLinha=">http://api.olhovivo.sptrans.com.br/v2.1/Posicao/Linha?codigoLinha=</a>{CODIGO_LINHA}”</p>
+<p>paradas = s.get(url_paradas).json() posicoes = s.get(url_onibus).json() lista_onibus = posicoes.get(‘vs’, [])</p>
+</section>
+<section id="geração-do-mapa" class="level1">
+<h1>3. Geração do Mapa</h1>
+<p>if paradas: m = folium.Map(location=[paradas[0][‘py’], paradas[0][‘px’]], zoom_start=13)</p>
+<pre><code># Paradas (Azul)
+for p in paradas:
+    folium.Marker(
+        [p['py'], p['px']], popup=f"Parada: {p['np']}", 
+        icon=folium.Icon(color='blue', icon='info-sign')
+    ).add_to(m)
+
+# Ônibus (Vermelho)
+if lista_onibus:
+    for o in lista_onibus:
+        folium.Marker(
+            [o['py'], o['px']], popup=f"Bus: {o['p']}", 
+            icon=folium.Icon(color='red', icon='bus', prefix='fa')
+        ).add_to(m)
+
+m.save("mapa_linha_695Y.html")
+print("Mapa gerado com sucesso!")
+
+Resultado: Mapa Interativo</code></pre>
+<p>Abaixo, o resultado final do processamento. Você pode interagir com o mapa (zoom e clique nos marcadores).</p>
+<iframe src="mapa_linha_695Y.html" width="100%" height="600px" style="border:none;">
+</iframe>
+
+
+</section>
+
+ ]]></description>
+  <category>Python</category>
+  <category>Folium</category>
+  <category>API</category>
+  <category>SPTrans</category>
+  <category>Geoprocessamento</category>
+  <guid>https://rafaeell2304.github.io/projetos-novos/posts/Atividade2-Monitoramento/</guid>
+  <pubDate>Sat, 22 Nov 2025 03:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Post With Code</title>

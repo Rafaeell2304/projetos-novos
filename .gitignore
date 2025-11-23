@@ -2,3 +2,5 @@ venv/
 
 /.quarto/
 **/*.quarto_ipynb
+.env
+

@@ -7,11 +7,18 @@
     "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
   },
   {
-    "objectID": "posts/Atividade3-Linear/index.html",
-    "href": "posts/Atividade3-Linear/index.html",
-    "title": "Atividade 3: Regressão Linear",
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
     "section": "",
-    "text": "Resultado: Gráfico da Regressão Linear"
+    "text": "This is a post with executable code."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Projetos Novos",
+    "section": "",
+    "text": "Atividade 3: Regressão Linear\n\n\n\nPython\n\nNumpy\n\n\n\n\n\n\n\n\n\nNov 23, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nAtividade 2: Monitoramento - Linha 695Y (Parelheiros)\n\n\n\nPython\n\nFolium\n\nAPI\n\nSPTrans\n\nGeoprocessamento\n\n\n\n\n\n\n\n\n\nNov 22, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nNov 7, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 4, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -21,17 +28,38 @@
     "text": "About this blog"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Projetos Novos",
+    "objectID": "posts/Atividade3-Linear/index.html",
+    "href": "posts/Atividade3-Linear/index.html",
+    "title": "Atividade 3: Regressão Linear",
     "section": "",
-    "text": "Atividade 3: Regressão Linear\n\n\n\nPython\n\nNumpy\n\n\n\n\n\n\n\n\n\nNov 20, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nNov 7, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 4, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
+    "text": "Resultado: Gráfico da Regressão Linear"
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "objectID": "posts/Atividade2-Monitoramento/index.html",
+    "href": "posts/Atividade2-Monitoramento/index.html",
+    "title": "Atividade 2: Monitoramento - Linha 695Y (Parelheiros)",
     "section": "",
-    "text": "This is a post with executable code."
+    "text": "Nesta atividade, desenvolvemos uma rotina em Python para monitorar, em tempo real, a operação da linha 695Y-10 (Terminal Parelheiros / Metrô Vila Mariana).\nO objetivo é consumir dados públicos da SPTrans e transformar coordenadas numéricas em uma visualização geográfica intuitiva."
+  },
+  {
+    "objectID": "posts/Atividade2-Monitoramento/index.html#o-objetivo",
+    "href": "posts/Atividade2-Monitoramento/index.html#o-objetivo",
+    "title": "Atividade 2: Monitoramento - Linha 695Y (Parelheiros)",
+    "section": "",
+    "text": "Nesta atividade, desenvolvemos uma rotina em Python para monitorar, em tempo real, a operação da linha 695Y-10 (Terminal Parelheiros / Metrô Vila Mariana).\nO objetivo é consumir dados públicos da SPTrans e transformar coordenadas numéricas em uma visualização geográfica intuitiva."
+  },
+  {
+    "objectID": "posts/Atividade2-Monitoramento/index.html#entendendo-a-lógica-do-código",
+    "href": "posts/Atividade2-Monitoramento/index.html#entendendo-a-lógica-do-código",
+    "title": "Atividade 2: Monitoramento - Linha 695Y (Parelheiros)",
+    "section": "Entendendo a Lógica do Código",
+    "text": "Entendendo a Lógica do Código\nO script foi estruturado em três etapas essenciais:\n\nAutenticação (Segurança): O código se conecta à API Olho Vivo enviando um Token de Acesso. Utilizamos a biblioteca python-dotenv para ler esse token de um arquivo oculto, garantindo que a credencial não fique exposta no código fonte.\nMineração de Dados (Request): Uma vez autenticado, o script faz duas requisições simultâneas para a SPTrans:\n\nBusca a localização fixa de todas as paradas da linha.\nBusca a posição GPS dinâmica de todos os ônibus em circulação no momento.\n\nVisualização (Folium): Utilizando a biblioteca folium, criamos um mapa interativo onde:\n\nÍcones Azuis: Representam os pontos de parada.\nÍcones Vermelhos: Representam a localização real dos veículos."
+  },
+  {
+    "objectID": "posts/Atividade2-Monitoramento/index.html#o-código-fonte",
+    "href": "posts/Atividade2-Monitoramento/index.html#o-código-fonte",
+    "title": "Atividade 2: Monitoramento - Linha 695Y (Parelheiros)",
+    "section": "O Código Fonte",
+    "text": "O Código Fonte\nAbaixo, a implementação completa da solução:\n#| eval: false #| code-fold: true #| code-summary: “Clique para ver o código Python completo”\nimport requests import folium import os from dotenv import load_dotenv"
   }
 ]
