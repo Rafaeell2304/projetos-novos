@@ -7,25 +7,39 @@
     "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "objectID": "posts/Atividade1-Dolar/index.html",
+    "href": "posts/Atividade1-Dolar/index.html",
+    "title": "Cotação do Dólar com Python (PTAX)",
     "section": "",
-    "text": "This is a post with executable code."
+    "text": "Este projeto busca a cotação do dólar fornecida pelo Banco Central do Brasil para um mês específico. A ideia é consultar os valores de compra e venda, preencher automaticamente feriados e fins de semana com a última cotação disponível e gerar um gráfico interativo em HTML para ser usado no blog."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Projetos Novos",
+    "objectID": "posts/Atividade1-Dolar/index.html#introdução",
+    "href": "posts/Atividade1-Dolar/index.html#introdução",
+    "title": "Cotação do Dólar com Python (PTAX)",
     "section": "",
-    "text": "Atividade 3: Regressão Linear\n\n\n\nPython\n\nNumpy\n\n\n\n\n\n\n\n\n\nNov 23, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nAtividade 2: Monitoramento - Linha 695Y (Parelheiros)\n\n\n\nPython\n\nFolium\n\nAPI\n\nSPTrans\n\nGeoprocessamento\n\n\n\n\n\n\n\n\n\nNov 22, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nNov 7, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 4, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
+    "text": "Este projeto busca a cotação do dólar fornecida pelo Banco Central do Brasil para um mês específico. A ideia é consultar os valores de compra e venda, preencher automaticamente feriados e fins de semana com a última cotação disponível e gerar um gráfico interativo em HTML para ser usado no blog."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
+    "objectID": "posts/Atividade1-Dolar/index.html#funcionamento-do-código",
+    "href": "posts/Atividade1-Dolar/index.html#funcionamento-do-código",
+    "title": "Cotação do Dólar com Python (PTAX)",
+    "section": "Funcionamento do código",
+    "text": "Funcionamento do código\nO código faz uma requisição à API do Banco Central usando a data no formato MMYYYY. Depois, organiza as cotações por data, trata dias sem cotação e monta uma tabela completa do mês. Por fim, gera um gráfico interativo com Plotly e salva o resultado em um arquivo HTML."
+  },
+  {
+    "objectID": "posts/Atividade1-Dolar/index.html#código-utilizado",
+    "href": "posts/Atividade1-Dolar/index.html#código-utilizado",
+    "title": "Cotação do Dólar com Python (PTAX)",
+    "section": "Código utilizado",
+    "text": "Código utilizado\nimport calendar\nfrom datetime import datetime, timedelta\nimport requests\nimport plotly.graph_objects as go\nimport plotly.express as px\nimport pandas as pd\n\ndef cotar(dataDolar):\n    \"\"\"\n    Busca a cotação do dólar no Banco Central do Brasil para o mês/ano especificado,\n    trata os dias sem cotação e gera um gráfico interativo.\n    \"\"\"\n    if len(dataDolar) != 6:\n        raise ValueError(\"A data deve estar no formato MMYYYY (ex: '102019')\")\n\n    first_date = datetime.strptime(dataDolar, \"%m%Y\")\n    last_date = first_date.replace(day=calendar.monthrange(first_date.year, first_date.month)[1])\n\n    datainicio = first_date.strftime(\"%m-%d-%Y\")\n    datafim = last_date.strftime(\"%m-%d-%Y\")\n\n    url = (\n        f\"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/\"\n        f\"CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?\"\n        f\"@dataInicial='{datainicio}'&@dataFinalCotacao='{datafim}'&$format=json\"\n    )\n\n    res = requests.get(url).json()\n\n    if 'value' not in res or not res['value']:\n        print(f\"Aviso: Nenhuma cotação encontrada para {dataDolar}.\")\n        return None\n\n    result = {}\n    for item in res['value']:\n        data_completa = datetime.strptime(item[\"dataHoraCotacao\"], \"%Y-%m-%d %H:%M:%S.%f\")\n        data = data_completa.date()\n        compra = item[\"cotacaoCompra\"]\n        venda = item[\"cotacaoVenda\"]\n        result[data] = (compra, venda)\n\n    def ultimo_dia_util(dia_atual):\n        dia_util = dia_atual - timedelta(days=1)\n        while dia_util &gt;= first_date.date():\n            if dia_util in result:\n                return result[dia_util]\n            dia_util -= timedelta(days=1)\n        return (None, None)\n\n    dados_cotacao = []\n    data_cotacao = first_date.date()\n    while data_cotacao &lt;= last_date.date():\n        if data_cotacao in result:\n            compra, venda = result[data_cotacao]\n        else:\n            compra, venda = ultimo_dia_util(data_cotacao)\n\n        dados_cotacao.append({\n            \"Data\": data_cotacao.strftime(\"%d/%m/%Y\"),\n            \"Compra\": compra,\n            \"Venda\": venda,\n        })\n        data_cotacao += timedelta(days=1)\n\n    df = pd.DataFrame(dados_cotacao)\n\n    fig = px.line(\n        df,\n        x=\"Data\",\n        y=[\"Compra\", \"Venda\"],\n        title=f\"Cotação do Dólar (PTAX) - {first_date.strftime('%B de %Y')}\",\n        labels={\"value\": \"Valor (R$)\", \"variable\": \"Tipo de Cotação\"},\n        color_discrete_map={\n            \"Compra\": \"green\",\n            \"Venda\": \"red\"\n        }\n    )\n    fig.update_layout(template=\"plotly_white\")\n\n    nome_arquivo_html = f\"cotacao_dolar_{dataDolar}.html\"\n    fig.write_html(nome_arquivo_html)\n\n    print(f\"Gráfico salvo em: {nome_arquivo_html}\")\n    return nome_arquivo_html\n\ncotar('102019')"
+  },
+  {
+    "objectID": "posts/Atividade1-Dolar/index.html#gráfico-gerado",
+    "href": "posts/Atividade1-Dolar/index.html#gráfico-gerado",
+    "title": "Cotação do Dólar com Python (PTAX)",
+    "section": "Gráfico gerado",
+    "text": "Gráfico gerado\nO arquivo HTML com o gráfico interativo é incorporado abaixo:"
   },
   {
     "objectID": "posts/Atividade3-Linear/index.html",
@@ -40,6 +54,27 @@
     "title": "Atividade 3: Regressão Linear",
     "section": "",
     "text": "A Regressão Linear Simples é um modelo estatístico fundamental utilizado para determinar a melhor reta de ajuste a um conjunto de dados, permitindo a predição de uma variável dependente (\\(Y\\)) com base em uma variável independente (\\(X\\)).\nNeste projeto, o cálculo dos coeficientes de regressão (\\(\\beta\\), ou seja, a inclinação e o intercepto da reta) foi implementado de forma manual , utilizando a fórmula da Equação Normal: \\[\\beta = (X^T X)^{-1} X^T Y\\]\n\n\n\n\n\n\n\n\n\nBiblioteca\nFunção no Projeto\n\n\n\n\nNumPy\nEssencial para todas as operações de álgebra linear (cálculo de transposta, inversa e multiplicação de matrizes).\n\n\nPandas\nUtilizado para estruturar e organizar os dados de entrada e saída.\n\n\nPlotnine\nUtilizado para a visualização final do resultado, desenhando a reta calculada sobre os pontos de dados originais."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Projetos Novos",
+    "section": "",
+    "text": "Atividade 3: Regressão Linear\n\n\n\nPython\n\nNumpy\n\n\n\n\n\n\n\n\n\nNov 23, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nCotação do Dólar com Python (PTAX)\n\n\n\npython\n\nAPI\n\nfinanças\n\ncotação dolar\n\n\n\n\n\n\n\n\n\nNov 23, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nAtividade 2: Monitoramento - Linha 695Y (Parelheiros)\n\n\n\nPython\n\nFolium\n\nAPI\n\nSPTrans\n\nGeoprocessamento\n\n\n\n\n\n\n\n\n\nNov 22, 2025\n\n\nCarlos Rafael\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nNov 7, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 4, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code."
   },
   {
     "objectID": "posts/Atividade2-Monitoramento/index.html",
