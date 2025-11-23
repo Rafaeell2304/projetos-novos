@@ -1,7 +1,7 @@
 ---
 title: "Atividade 3: Regressão Linear"
 author: "Carlos Rafael"
-date: "2025-11-20"
+date: "2025-11-23"
 categories: [Python, Numpy]
 format: html
 ---
