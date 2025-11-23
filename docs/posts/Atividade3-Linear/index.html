@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -159,11 +188,45 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<section id="objetivo-e-metodologia" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo-e-metodologia">Objetivo e Metodologia</h2>
+<p>A <strong>Regressão Linear Simples</strong> é um modelo estatístico fundamental utilizado para determinar a melhor reta de ajuste a um conjunto de dados, permitindo a predição de uma variável dependente (<span class="math inline">\(Y\)</span>) com base em uma variável independente (<span class="math inline">\(X\)</span>).</p>
+<p>Neste projeto, o cálculo dos coeficientes de regressão (<span class="math inline">\(\beta\)</span>, ou seja, a inclinação e o intercepto da reta) foi implementado de forma <strong>manual</strong> , utilizando a fórmula da <strong>Equação Normal</strong>: <span class="math display">\[\beta = (X^T X)^{-1} X^T Y\]</span></p>
+<section id="ferramentas-utilizadas" class="level3">
+<h3 class="anchored" data-anchor-id="ferramentas-utilizadas">Ferramentas Utilizadas</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Biblioteca</th>
+<th style="text-align: left;">Função no Projeto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>NumPy</strong></td>
+<td style="text-align: left;">Essencial para todas as operações de <strong>álgebra linear</strong> (cálculo de transposta, inversa e multiplicação de matrizes).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Pandas</strong></td>
+<td style="text-align: left;">Utilizado para estruturar e organizar os dados de entrada e saída.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Plotnine</strong></td>
+<td style="text-align: left;">Utilizado para a <strong>visualização</strong> final do resultado, desenhando a reta calculada sobre os pontos de dados originais.</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="resultado-gráfico-da-regressão-linear" class="level3">
 <h3 class="anchored" data-anchor-id="resultado-gráfico-da-regressão-linear">Resultado: Gráfico da Regressão Linear</h3>
 <p><img src="grafico_regressao.png" class="img-fluid"></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

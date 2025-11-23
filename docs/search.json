@@ -32,7 +32,14 @@
     "href": "posts/Atividade3-Linear/index.html",
     "title": "Atividade 3: Regressão Linear",
     "section": "",
-    "text": "Resultado: Gráfico da Regressão Linear"
+    "text": "A Regressão Linear Simples é um modelo estatístico fundamental utilizado para determinar a melhor reta de ajuste a um conjunto de dados, permitindo a predição de uma variável dependente (\\(Y\\)) com base em uma variável independente (\\(X\\)).\nNeste projeto, o cálculo dos coeficientes de regressão (\\(\\beta\\), ou seja, a inclinação e o intercepto da reta) foi implementado de forma manual , utilizando a fórmula da Equação Normal: \\[\\beta = (X^T X)^{-1} X^T Y\\]\n\n\n\n\n\n\n\n\n\nBiblioteca\nFunção no Projeto\n\n\n\n\nNumPy\nEssencial para todas as operações de álgebra linear (cálculo de transposta, inversa e multiplicação de matrizes).\n\n\nPandas\nUtilizado para estruturar e organizar os dados de entrada e saída.\n\n\nPlotnine\nUtilizado para a visualização final do resultado, desenhando a reta calculada sobre os pontos de dados originais."
+  },
+  {
+    "objectID": "posts/Atividade3-Linear/index.html#objetivo-e-metodologia",
+    "href": "posts/Atividade3-Linear/index.html#objetivo-e-metodologia",
+    "title": "Atividade 3: Regressão Linear",
+    "section": "",
+    "text": "A Regressão Linear Simples é um modelo estatístico fundamental utilizado para determinar a melhor reta de ajuste a um conjunto de dados, permitindo a predição de uma variável dependente (\\(Y\\)) com base em uma variável independente (\\(X\\)).\nNeste projeto, o cálculo dos coeficientes de regressão (\\(\\beta\\), ou seja, a inclinação e o intercepto da reta) foi implementado de forma manual , utilizando a fórmula da Equação Normal: \\[\\beta = (X^T X)^{-1} X^T Y\\]\n\n\n\n\n\n\n\n\n\nBiblioteca\nFunção no Projeto\n\n\n\n\nNumPy\nEssencial para todas as operações de álgebra linear (cálculo de transposta, inversa e multiplicação de matrizes).\n\n\nPandas\nUtilizado para estruturar e organizar os dados de entrada e saída.\n\n\nPlotnine\nUtilizado para a visualização final do resultado, desenhando a reta calculada sobre os pontos de dados originais."
   },
   {
     "objectID": "posts/Atividade2-Monitoramento/index.html",
